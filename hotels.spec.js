@@ -1,6 +1,5 @@
-/* global it describe expect xit */
+/* global it describe */
 
-var expect = require('chai').expect
 var assert = require('chai').assert
 var hotels = require('./hotels')
 
@@ -39,8 +38,18 @@ describe('numberOfWeekdaysAndWeekends() should return an object tallying the num
   })
 })
 
-// describe('calculatePrices()', () => {
-//   it('should return an array of hotel prices', () => {
-//     hotels.calculatePrices('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)')
-//   })
-// })
+describe('calculatePrices()', () => {
+  it('should return an array of hotel prices', () => {
+    assert.isArray(hotels.calculatePrices('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+  })
+
+  it('should return an array of hotel prices', () => {
+    assert.isArray(hotels.calculatePrices('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+  })
+})
+
+describe('findCheapestHotel()', () => {
+  it('should return the name of the cheapest hotel', () => {
+    assert.equal('Lakewood', hotels.findCheapestHotel('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+  })
+})
