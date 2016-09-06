@@ -1,8 +1,8 @@
 /* global it describe */
 
 var assert = require('chai').assert
-var hotels = require('./hotels')
-var parsingData = require('./parsing')
+var hotels = require('../hotels')
+var parsingData = require('../parsing')
 
 describe('hotel data', () => {
   it('should return an array', () => {
@@ -49,15 +49,15 @@ describe('calculatePrices()', () => {
 })
 
 describe('findCheapestHotel()', () => {
-  it('should return the name of the cheapest hotel', () => {
-    assert.equal('Lakewood', hotels.findCheapestHotel('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+  it('should return Lakewood', () => {
+    assert.equal('Lakewood', hotels.findCheapestHotel({customerType: 'Regular', dates: ['16Mar2009(mon)', '17Mar2009(tues)', '18Mar2009(wed)'], days: ['mon', 'tues', 'wed']}))
   })
 
-  it('should return the name of the cheapest hotel', () => {
-    assert.equal('Bridgewood', hotels.findCheapestHotel('Regular: 20Mar2009(fri), 21Mar2009(sat), 22Mar2009(sun)'))
+  it('should return Bridgewood', () => {
+    assert.equal('Bridgewood', hotels.findCheapestHotel({customerType: 'Regular', dates: ['20Mar2009(fri)', '21Mar2009(sat)', '22Mar2009(sun)'], days: ['fri', 'sat', 'sun']}))
   })
 
-  it('should return the name of the cheapest hotel', () => {
-    assert.equal('Ridgewood', hotels.findCheapestHotel('Rewards: 26Mar2009(thur), 27Mar2009(fri), 28Mar2009(sat)'))
+  it('should return Ridgewood', () => {
+    assert.equal('Ridgewood', hotels.findCheapestHotel({customerType: 'Rewards', dates: ['26Mar2009(thur)', '27Mar2009(fri)', '28Mar2009(sat)'], days: ['thur', 'fri', 'sat']}))
   })
 })

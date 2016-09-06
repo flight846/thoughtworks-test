@@ -39,8 +39,8 @@ var hotels = {
     return totalPrices
   },
 
-  findCheapestHotel: (input) => {
-    var booking = parsingData.parseBooking(input)
+  findCheapestHotel: (booking) => {
+    // var booking = parsingData.parseBooking(input)
     var options = hotels.calculatePrices(booking)
     var cheapestHotel = options[0]
     options.forEach((element) => {
