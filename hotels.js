@@ -75,6 +75,7 @@ var hotels = {
 
       obj['name'] = element.name
       obj['price'] = price
+      obj['rating'] = element.rating
       totalPrices.push(obj)
     })
     return totalPrices
@@ -83,9 +84,11 @@ var hotels = {
   findCheapestHotel: (input) => {
     var options = hotels.calculatePrices(input)
     var cheapestHotel = options[0]
-    console.log(cheapestHotel)
     options.forEach((element) => {
-      if (element.price < cheapestHotel) {
+      if (element.price === cheapestHotel.price && element.rating > cheapestHotel.rating) {
+        cheapestHotel = element
+      }
+      else if (element.price < cheapestHotel.price) {
         cheapestHotel = element
       }
     })
