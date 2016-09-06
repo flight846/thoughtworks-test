@@ -26,6 +26,9 @@ var hotels = {
     }
   ],
 
+  weekdays: ['mon', 'tues', 'wed', 'thur', 'fri'],
+  weekends: ['sat', 'sun'],
+
   parseBooking: (input) => {
     var booking = {}
     booking['customerType'] = input.split(':')[0]
@@ -35,9 +38,21 @@ var hotels = {
       booking['days'].push(element.split('(')[1].slice(0, -1))
     })
     return booking
+  },
+
+  numberOfWeekdaysAndWeekends: (input) => {
+    var booking = hotels.parseBooking(input)
+    var count = { 'weekdays' : 0,
+                  'weekends': 0}
+    booking.days.forEach(function(element) {
+      if (hotels.weekdays.indexOf(element) > -1) {
+        count['weekdays']++
+      } else if (hotels.weekends.indexOf(element) > -1) {
+        count['weekends']++
+      }
+    })
+    return count
   }
 }
 
-// booking = { customerType: 'Regular',
-//   dates: [ ' 16Mar2009(mon)', ' 17Mar2009(tues)', ' 18Mar2009(wed)' ] }
 module.exports = hotels

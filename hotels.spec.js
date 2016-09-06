@@ -14,7 +14,7 @@ describe('hotel data', () => {
   })
 })
 
-describe('converting input into object with two properties: loyalty program (T/F) and dates (array)', () => {
+describe('parseBooking()', () => {
   it('should return an object', () => {
     assert.isObject(hotels.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
   })
@@ -27,3 +27,20 @@ describe('converting input into object with two properties: loyalty program (T/F
     assert.isArray(hotels.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').days)
   })
 })
+
+describe('numberOfWeekdaysAndWeekends() should return an object tallying the number of days which are weekdays and weekends', () => {
+  it('should return 3 weekdays', () => {
+    assert.equal(3, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').weekdays)
+  })
+
+  it('should return 1 weekday and 2 weekend days', () => {
+    assert.equal(1, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(fri), 17Mar2009(sat), 18Mar2009(sun)').weekdays)
+    assert.equal(2, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(fri), 17Mar2009(sat), 18Mar2009(sun)').weekends)
+  })
+})
+
+// describe('calculatePrices()', () => {
+//   it('should return an array of hotel prices', () => {
+//     hotels.calculatePrices('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)')
+//   })
+// })
