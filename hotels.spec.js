@@ -1,7 +1,8 @@
 /* global it describe */
 
 var assert = require('chai').assert
-var hotels = require('./hotels')
+var hotels = require('./hotels').hotels
+var parsingData = require('./hotels').parsingData
 
 describe('hotel data', () => {
   it('should return an array', () => {
@@ -15,26 +16,28 @@ describe('hotel data', () => {
 
 describe('parseBooking()', () => {
   it('should return an object', () => {
-    assert.isObject(hotels.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+    assert.isObject(parsingData.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
   })
 
   it('the object should contain an array of dates', () => {
-    assert.isArray(hotels.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').dates)
+    assert.isArray(parsingData.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').dates)
   })
 
   it('the object should contain an array of days', () => {
-    assert.isArray(hotels.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').days)
+    assert.isArray(parsingData.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').days)
   })
 })
 
 describe('numberOfWeekdaysAndWeekends() should return an object tallying the number of days which are weekdays and weekends', () => {
   it('should return 3 weekdays', () => {
-    assert.equal(3, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)').weekdays)
+    var booking = parsingData.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)')
+    assert.equal(3, hotels.numberOfWeekdaysAndWeekends(booking).weekdays)
   })
 
   it('should return 1 weekday and 2 weekend days', () => {
-    assert.equal(1, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(fri), 17Mar2009(sat), 18Mar2009(sun)').weekdays)
-    assert.equal(2, hotels.numberOfWeekdaysAndWeekends('Regular: 16Mar2009(fri), 17Mar2009(sat), 18Mar2009(sun)').weekends)
+    var booking = parsingData.parseBooking('Regular: 16Mar2009(fri), 17Mar2009(sat), 18Mar2009(sun)')
+    assert.equal(1, hotels.numberOfWeekdaysAndWeekends(booking).weekdays)
+    assert.equal(2, hotels.numberOfWeekdaysAndWeekends(booking).weekends)
   })
 })
 

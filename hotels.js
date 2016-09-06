@@ -1,34 +1,13 @@
-var hotels = {
-  outlets: [
-    {
-      name: 'Lakewood',
-      weekdayRate: 110,
-      loyaltyWeekdayRate: 80,
-      weekendRate: 90,
-      loyaltyWeekendRate: 80,
-      rating: 3
-    },
-    {
-      name: 'Bridgewood',
-      weekdayRate: 160,
-      loyaltyWeekdayRate: 110,
-      weekendRate: 60,
-      loyaltyWeekendRate: 50,
-      rating: 4
-    },
-    {
-      name: 'Ridgewood',
-      weekdayRate: 220,
-      loyaltyWeekdayRate: 100,
-      weekendRate: 150,
-      loyaltyWeekendRate: 40,
-      rating: 5
-    }
-  ],
+function HotelOutlet (name, weekdayRate, loyaltyWeekdayRate, weekendRate, loyaltyWeekendRate, rating) {
+  this.name = name,
+  this.weekdayRate = weekdayRate,
+  this.loyaltyWeekdayRate = loyaltyWeekdayRate,
+  this.weekendRate = weekendRate,
+  this.loyaltyWeekendRate = loyaltyWeekendRate,
+  this.rating = rating
+}
 
-  weekdays: ['mon', 'tues', 'wed', 'thur', 'fri'],
-  weekends: ['sat', 'sun'],
-
+var parsingData = {
   parseBooking: (input) => {
     var booking = {}
     booking['customerType'] = input.split(':')[0]
@@ -38,26 +17,34 @@ var hotels = {
       booking['days'].push(element.split('(')[1].slice(0, -1))
     })
     return booking
-  },
+  }
+}
 
-  numberOfWeekdaysAndWeekends: (input) => {
-    var booking = hotels.parseBooking(input)
+var hotels = {
+  outlets: [new HotelOutlet('Lakewood', 110, 80, 90, 80, 3),
+    new HotelOutlet('Bridgewood', 160, 110, 60, 50, 4),
+    new HotelOutlet('Ridgewood', 220, 100, 150, 40, 5) ],
+
+  weekends: ['sat', 'sun'],
+
+  numberOfWeekdaysAndWeekends: (booking) => {
     var count = { 'weekdays': 0,
     'weekends': 0}
+    console.log(booking)
     booking.days.forEach((element) => {
-      if (hotels.weekdays.indexOf(element) > -1) {
-        count['weekdays']++
-      } else if (hotels.weekends.indexOf(element) > -1) {
+      if (hotels.weekends.indexOf(element) > -1) {
         count['weekends']++
+      } else {
+        count['weekdays']++
       }
     })
     return count
   },
 
   calculatePrices: (input) => {
-    var booking = hotels.parseBooking(input)
-    var weekdays = hotels.numberOfWeekdaysAndWeekends(input).weekdays
-    var weekends = hotels.numberOfWeekdaysAndWeekends(input).weekends
+    var booking = parsingData.parseBooking(input)
+    var weekdays = hotels.numberOfWeekdaysAndWeekends(booking).weekdays
+    var weekends = hotels.numberOfWeekdaysAndWeekends(booking).weekends
 
     var totalPrices = []
 
@@ -97,4 +84,7 @@ var hotels = {
   }
 }
 
-module.exports = hotels
+module.exports = {
+  hotels: hotels,
+  parsingData: parsingData
+}
