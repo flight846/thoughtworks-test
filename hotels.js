@@ -1,3 +1,5 @@
+var parsingData = require('./parsing')
+
 function HotelOutlet (name, weekdayRate, loyaltyWeekdayRate, weekendRate, loyaltyWeekendRate, rating) {
   this.name = name,
   this.weekdayRate = weekdayRate,
@@ -7,41 +9,13 @@ function HotelOutlet (name, weekdayRate, loyaltyWeekdayRate, weekendRate, loyalt
   this.rating = rating
 }
 
-var parsingData = {
-  parseBooking: (input) => {
-    var booking = {}
-    booking['customerType'] = input.split(':')[0]
-    booking['dates'] = input.split(':')[1].split(',')
-    booking['days'] = []
-    booking['dates'].forEach((element) => {
-      booking['days'].push(element.split('(')[1].slice(0, -1))
-    })
-    return booking
-  }
-}
-
 var hotels = {
   outlets: [new HotelOutlet('Lakewood', 110, 80, 90, 80, 3),
     new HotelOutlet('Bridgewood', 160, 110, 60, 50, 4),
     new HotelOutlet('Ridgewood', 220, 100, 150, 40, 5) ],
 
-  weekends: ['sat', 'sun'],
-
-  numberOfWeekdaysAndWeekends: (booking) => {
-    var count = { 'weekdays': 0,
-    'weekends': 0}
-    booking.days.forEach((element) => {
-      if (hotels.weekends.indexOf(element) > -1) {
-        count['weekends']++
-      } else {
-        count['weekdays']++
-      }
-    })
-    return count
-  },
-
   calculatePrices: (booking) => {
-    var dayCount = hotels.numberOfWeekdaysAndWeekends(booking)
+    var dayCount = parsingData.numberOfWeekdaysAndWeekends(booking)
 
     var totalPrices = []
 
@@ -82,7 +56,4 @@ var hotels = {
   }
 }
 
-module.exports = {
-  hotels: hotels,
-  parsingData: parsingData
-}
+module.exports = hotels
