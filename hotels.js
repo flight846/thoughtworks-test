@@ -1,33 +1,6 @@
 var parsingData = require('./parsing')
-
-function Rates(weekdayRate, weekendRate) {
-  this.weekdayRate = weekdayRate
-  this.weekendRate = weekendRate
-
-  this.calculateRateFor = function(dayCount) {
-    var price = 0
-    price += dayCount.weekdays * this.weekdayRate
-    price += dayCount.weekends * this.weekendRate
-    return price
-  }
-}
-
-function HotelOutlet (name, rating, regularRate, rewardsRate) {
-  this.name = name,
-  this.rating = rating
-  this.regularRate = regularRate
-  this.rewardsRate = rewardsRate
-
-  this.calculatePrice = function(customerType, dayCount) {
-    var price = 0
-    if (customerType === 'Regular') {
-      price += this.regularRate.calculateRateFor(dayCount)
-    } else if (customerType === 'Rewards') {
-      price += this.rewardsRate.calculateRateFor(dayCount)
-    }
-    return price
-  }
-}
+var HotelOutlet = require('./outlet')
+var Rates = require('./Rates')
 
 var hotels = {
   outlets: [new HotelOutlet('Lakewood', 3, new Rates(110, 90), new Rates(80, 80)),
