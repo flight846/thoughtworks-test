@@ -1,5 +1,3 @@
-var hotels = require('./hotels')
-
 var parsingData = {
 
   weekends: ['sat', 'sun'],
