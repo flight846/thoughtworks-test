@@ -43,7 +43,8 @@ describe('numberOfWeekdaysAndWeekends() should return an object tallying the num
 
 describe('calculatePrices()', () => {
   it('should return an array of hotel prices', () => {
-    assert.isArray(hotels.calculatePrices('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)'))
+    var booking = parsingData.parseBooking('Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)')
+    assert.isArray(hotels.calculatePrices(booking))
   })
 })
 

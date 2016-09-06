@@ -30,7 +30,6 @@ var hotels = {
   numberOfWeekdaysAndWeekends: (booking) => {
     var count = { 'weekdays': 0,
     'weekends': 0}
-    console.log(booking)
     booking.days.forEach((element) => {
       if (hotels.weekends.indexOf(element) > -1) {
         count['weekends']++
@@ -41,10 +40,8 @@ var hotels = {
     return count
   },
 
-  calculatePrices: (input) => {
-    var booking = parsingData.parseBooking(input)
-    var weekdays = hotels.numberOfWeekdaysAndWeekends(booking).weekdays
-    var weekends = hotels.numberOfWeekdaysAndWeekends(booking).weekends
+  calculatePrices: (booking) => {
+    var dayCount = hotels.numberOfWeekdaysAndWeekends(booking)
 
     var totalPrices = []
 
@@ -53,11 +50,11 @@ var hotels = {
       var obj = {}
 
       if (booking.customerType === 'Regular') {
-        price += weekdays * element.weekdayRate
-        price += weekends * element.weekendRate
+        price += dayCount.weekdays * element.weekdayRate
+        price += dayCount.weekends * element.weekendRate
       } else if (booking.customerType === 'Rewards') {
-        price += weekdays * element.loyaltyWeekdayRate
-        price += weekends * element.loyaltyWeekendRate
+        price += dayCount.weekdays * element.loyaltyWeekdayRate
+        price += dayCount.weekends * element.loyaltyWeekendRate
       }
 
       obj['name'] = element.name
@@ -69,7 +66,8 @@ var hotels = {
   },
 
   findCheapestHotel: (input) => {
-    var options = hotels.calculatePrices(input)
+    var booking = parsingData.parseBooking(input)
+    var options = hotels.calculatePrices(booking)
     var cheapestHotel = options[0]
     options.forEach((element) => {
       if (element.price === cheapestHotel.price && element.rating > cheapestHotel.rating) {
